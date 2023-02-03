@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Webtech</title>
+  </head>
+  <body>
+    <table id="table"></table>
+    <button id="load">Load</button>
+    <button id="delete">Delete</button>
+    <input type="text" id="name" />
+
+    <script>
+            window.onload = async () => {
+              let table = document.getElementById("table");
+
+              let p = document.createElement("p");
+              p.innerText = "Webtech app";
+              document.body.appendChild(p);
+
+              let btLoad = document.getElementById("load");
+
+              btLoad.addEventListener("click", async () => {
+                try {
+                  let response = await fetch("data.json");
+                  let data = await response.json()
+                  for (let element of data) {
+                    let tr = document.createElement("tr");
+                    let td1 = document.createElement("td");
+                    let td2 = document.createElement("td");
+                    let td3 = document.createElement("td");
+                    tr.setAttribute("id",element.name)
+                    td1.innerText = element.name;
+
+                    td2.innerText = element.surname;
+                    td3.innerText = element.age;
+
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    tr.appendChild(td3);
+
+                    table.appendChild(tr);
+                  }
+                } catch (e) {
+                  console.warn(e);
+                }
+              });
+
+              let btDelete = document.getElementById("delete");
+              btDelete.addEventListener("click",()=>{
+                  let nameValue=document.getElementById("name")
+                  let value=nameValue.value;
+                  let ta=document.getElementById(`${value}`)
+                  ta.parentNode.removeChild(ta);
+              })
+            };
+    </script>
+  </body>
+</html>

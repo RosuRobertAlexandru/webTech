@@ -1,0 +1,41 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A simple app</title>
+    <script>
+      window.onload = async () => {
+        try {
+          const response = await fetch(`http://localhost:8080/cars`);
+          const responseBody = await response.json();
+          console.log(responseBody);
+          const button = document.createElement("button");
+          button.setAttribute("id", "load");
+          document.body.appendChild(button);
+          let table = document.getElementById("main");
+          button.addEventListener("click", () => {
+            for (let data of responseBody) {
+              if (data.color === "red") {
+                console.log(data);
+                let tr = document.createElement("tr");
+                let td1 = document.createElement("td");
+                let td2 = document.createElement("td");
+                td1.innerText = data.name;
+                td2.innerText = data.color;
+                tr.appendChild(td1);
+                tr.appendChild(td2);
+                table.appendChild(tr);
+              }
+            }
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      };
+    </script>
+  </head>
+  <body>
+    A simple app
+    <table id="main"></table>
+  </body>
+</html>
